@@ -53,8 +53,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(patch_hash=ef791133b2cb0edd58c63173d8fd6527ff7ce7f42c7e775405a5cd33e3ad919a)
       pmtiles:
-        specifier: ^4.3.0
-        version: 4.3.0
+        specifier: ^4.3.2
+        version: 4.3.2
       react:
         specifier: ^19.2.3
         version: 19.2.3
@@ -2058,8 +2058,8 @@ packages:
   pkg-types@2.3.0:
     resolution: {integrity: sha512-SIqCzDRg0s9npO5XQ3tNZioRY1uK06lA41ynBC1YmFTmnY6FjUjVt6s4LoADmwoig1qqD0oK8h1p/8mlMx8Oig==}
 
-  pmtiles@4.3.0:
-    resolution: {integrity: sha512-wnzQeSiYT/MyO63o7AVxwt7+uKqU0QUy2lHrivM7GvecNy0m1A4voVyGey7bujnEW5Hn+ZzLdvHPoFaqrOzbPA==}
+  pmtiles@4.3.2:
+    resolution: {integrity: sha512-Ath2F2U2E37QyNXjN1HOF+oLiNIbdrDYrk/K3C9K4Pgw2anwQX10y4WYWEH9O75vPiu0gBbSWIAbSG19svyvZg==}
 
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
@@ -4413,7 +4413,7 @@ snapshots:
       exsolve: 1.0.8
       pathe: 2.0.3
 
-  pmtiles@4.3.0:
+  pmtiles@4.3.2:
     dependencies:
       fflate: 0.8.2
 
