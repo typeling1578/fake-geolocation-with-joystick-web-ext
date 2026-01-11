@@ -2,7 +2,13 @@ import { defineConfig } from "wxt";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 
-process.loadEnvFile();
+try {
+  process.loadEnvFile();
+} catch (e: any) {
+  if (e.code !== "ENOENT") {
+    throw e;
+  }
+}
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
