@@ -1,0 +1,12 @@
+extName: Fake geolocation with joystick
+extDescription: Add-on for faking geolocation with joystick
+
+popup:
+  addonEnabledTooltip: Enabled
+  addonDisabledTooltip: Disabled
+  setFakeGeolocationTitle: Location settings
+  setFakeGeolocationDescription: First, pick a fake location.
+  setFakeGeolocationHint: You can set the location by clicking on the map.
+
+mapComponent:
+  setToCurrentLocationTooltip: Set to current location (experimental)

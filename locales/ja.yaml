@@ -1,0 +1,12 @@
+extName: Fake geolocation with joystick
+extDescription: 位置情報を偽装するアドオン、ジョイスティック付き
+
+popup:
+  addonEnabledTooltip: 有効です
+  addonDisabledTooltip: 無効です
+  setFakeGeolocationTitle: 位置情報の設定
+  setFakeGeolocationDescription: はじめに偽装する位置を設定してください
+  setFakeGeolocationHint: 地図上をクリックすることで位置を設定できます
+
+mapComponent:
+  setToCurrentLocationTooltip: 現在地に設定する (実験的)

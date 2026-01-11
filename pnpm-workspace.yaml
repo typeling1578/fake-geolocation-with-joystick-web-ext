@@ -1,0 +1,3 @@
+patchedDependencies:
+  mmdb-lib: patches/mmdb-lib.patch
+  wxt: patches/wxt.patch

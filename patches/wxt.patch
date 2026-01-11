@@ -1,0 +1,13 @@
+diff --git a/dist/utils/inject-script.mjs b/dist/utils/inject-script.mjs
+index c520b273d360614beb69b55b40ae6d9c3d56483c..2fcd43e33826c142d03f39e871ffc793922fb696 100644
+--- a/dist/utils/inject-script.mjs
++++ b/dist/utils/inject-script.mjs
+@@ -2,7 +2,7 @@ import { browser } from "wxt/browser";
+ export async function injectScript(path, options) {
+   const url = browser.runtime.getURL(path);
+   const script = document.createElement("script");
+-  if (browser.runtime.getManifest().manifest_version === 2) {
++  if (browser.runtime.getManifest().manifest_version === 2 && false) {
+     script.text = await fetch(url).then((res) => res.text());
+   } else {
+     script.src = url;
