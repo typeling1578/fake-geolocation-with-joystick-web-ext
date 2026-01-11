@@ -1,0 +1,52 @@
+name: Packaging
+
+on:
+  workflow_dispatch:
+
+jobs:
+  packaging:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Setup corepack
+        run: |
+          corepack enable
+          corepack enable pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run zip script
+        run: pnpm run zip
+
+      - name: Run zip:firefox script
+        run: pnpm run zip:firefox
+
+      - name: Upload chrome zip
+        uses: actions/upload-artifact@v6
+        with:
+          name: chrome-mv3-build
+          path: .output/*-chrome.zip
+          include-hidden-files: true
+
+      - name: Upload firefox zip
+        uses: actions/upload-artifact@v6
+        with:
+          name: firefox-mv2-build
+          path: .output/*-firefox.zip
+          include-hidden-files: true
+
+      - name: Upload sourcecode zip
+        uses: actions/upload-artifact@v6
+        with:
+          name: sourcecode
+          path: .output/*-sources.zip
+          include-hidden-files: true
