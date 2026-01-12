@@ -1,8 +1,8 @@
-import { useRef, useEffect, useState, CSSProperties } from "react";
-import { layers, namedFlavor } from "@protomaps/basemaps";
-import maplibregl from "maplibre-gl";
-import { Protocol } from "pmtiles";
-import "maplibre-gl/dist/maplibre-gl.css";
+import { useEffect, useState, useRef, CSSProperties } from "react";
+import L from "leaflet";
+import { leafletLayer } from "protomaps-leaflet";
+import { PMTiles } from "pmtiles";
+import "leaflet/dist/leaflet.css";
 import { getIpLocation } from "@/lib/geolite.ts";
 import {getPublicIPsWithApi, getPublicIPsWithWebRTC} from "@/lib/get-public-ip.ts";
 import { Button } from "@/components/ui/button.tsx";
@@ -13,81 +13,82 @@ import { Spinner } from "@/components/ui/spinner";
 import { i18n } from "#i18n";
 import protomapsServerSelector from "@/lib/protomaps-server-selector.ts";
 
-export default function MapComponent({ style, className, defaultLatLng, onLatLngChanged }: { style?: CSSProperties, className?: string, defaultLatLng?: maplibregl.LngLatLike | null, onLatLngChanged: (coordinates: maplibregl.LngLat) => void }) {
+type LatLng = { lat: number, lng: number };
+
+export default function MapComponent({ style, className, defaultLatLng, onLatLngChanged }: { style?: CSSProperties, className?: string, defaultLatLng?: LatLng | null, onLatLngChanged: (coordinates: LatLng) => void }) {
   const theme = "light";
-  const mapContainer = useRef<HTMLDivElement | null>(null);
-  const [map, setMap] = useState<maplibregl.Map | null>(null);
-  const [marker, setMarker] = useState<maplibregl.Marker | null>(null);
+  const [map, setMap] = useState<L.Map | null>(null);
+  const marker = useRef<L.LayerGroup<any> | null>(null);
   const [settingToCurrentLocation, setSettingToCurrentLocation] = useState(false);
 
+  // ---------------------------------------------------------
+  // Helper function to create markers that display even when crossing boundaries
+  // ---------------------------------------------------------
+  function addWrappedMarker([lat, lng]: [number, number], options = {}) {
+    // Prepare three coordinates (center, left world, right world)
+    const positions = [
+      [lat, lng],
+      [lat, lng - 360],
+      [lat, lng + 360]
+    ];
+
+    const group = L.layerGroup();
+
+    positions.forEach(function(pos) {
+      const marker = L.marker(pos as [number, number], options);
+      group.addLayer(marker);
+    });
+
+    return group;
+  }
+
   useEffect(() => {
-    const protocol = new Protocol();
-    maplibregl.addProtocol("pmtiles", protocol.tile);
-
-    const map = new maplibregl.Map({
-      container: mapContainer.current!,
-      // style: {
-      //   version: 8,
-      //   glyphs: "https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf",
-      //   sprite: "https://protomaps.github.io/basemaps-assets/sprites/v3/" + theme,
-      //   sources: {
-      //     protomaps: {
-      //       type: "vector",
-      //       url: "pmtiles://https://protomaps.typeling1578.dev/pmtiles/download.php",
-      //       attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>',
-      //     },
-      //   },
-      //   layers: layers("protomaps", namedFlavor(theme), { lang: "en" }),
-      // },
-      center: defaultLatLng ?? undefined,
-      zoom: defaultLatLng ? 10 : 0,
+    const map = L.map("map", {
+      center: [0, 0],
+      zoom: 0,
+      maxBounds: L.latLngBounds([-90, -Infinity], [90, Infinity]),
+      maxBoundsViscosity: 1.0,
+      worldCopyJump: true,
     });
-
-    let marker = new maplibregl.Marker();
-
     if (defaultLatLng) {
-      marker.setLngLat(defaultLatLng).addTo(map);
+      map.setView([defaultLatLng.lat, defaultLatLng.lng], 10);
+      marker.current = addWrappedMarker([defaultLatLng.lat, defaultLatLng.lng]).addTo(map);
     }
-
-    map.on("click", (e) => {
-      const coordinates = e.lngLat;
-      marker.setLngLat(coordinates).addTo(map);
-      onLatLngChanged(coordinates);
-    });
-
-    setMap(map);
-    setMarker(marker);
 
     (async () => {
       const protomapsServer = await protomapsServerSelector();
 
-      map.setStyle({
-        version: 8,
-        glyphs: "https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf",
-        sprite: "https://protomaps.github.io/basemaps-assets/sprites/v3/" + theme,
-        sources: {
-          protomaps: {
-            type: "vector",
-            url: `pmtiles://${protomapsServer}`,
-            attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>',
-          },
-        },
-        layers: layers("protomaps", namedFlavor(theme), { lang: "en" }),
+      const layer = leafletLayer({
+        // @ts-expect-error: https://github.com/protomaps/protomaps-leaflet/blob/7aeddd926cbfef084fb72c1be45b3bab7532fe45/src/view.ts#L250
+        url: new PMTiles(protomapsServer),
+        flavor: theme,
+        attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       });
+      layer.addTo(map);
     })();
+
+    map.on("click", (e: any) => {
+      const {lat, lng} = e.latlng.wrap();
+      if (marker.current) {
+        marker.current.remove();
+      }
+      marker.current = addWrappedMarker([lat, lng]).addTo(map);
+      onLatLngChanged({ lat, lng });
+    });
+
+    setMap(map);
 
     return () => {
       map.remove();
-      maplibregl.removeProtocol("pmtiles");
-    }
+    };
   }, []);
 
   async function setToCurrentLocation(useGeoLite = false) {
-    if (!marker || !map) {
+    if (!map) {
       return;
     }
 
-    let coordinates: maplibregl.LngLat;
+    let coordinates: LatLng;
     if (navigator.geolocation && !useGeoLite) {
       let position: GeolocationPosition;
       try {
@@ -102,10 +103,10 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
         console.error(error);
         return setToCurrentLocation(true);
       }
-      coordinates = new maplibregl.LngLat(
-        position.coords.longitude,
-        position.coords.latitude,
-      );
+      coordinates = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
     } else {
       let ips = await getPublicIPsWithApi();
       if (!ips.ipv4 && !ips.ipv6) {
@@ -123,9 +124,11 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
       coordinates = result;
     }
 
-    map.setZoom(10);
-    map.setCenter(coordinates);
-    marker.setLngLat(coordinates).addTo(map);
+    map.setView([coordinates.lat, coordinates.lng], 10);
+    if (marker.current) {
+      marker.current.remove();
+    }
+    marker.current = addWrappedMarker([coordinates.lat, coordinates.lng]).addTo(map);
     onLatLngChanged(coordinates);
   }
 
@@ -142,14 +145,14 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
   return (
     <div style={style} className={className}>
       <div className="relative w-full h-full">
-        <div className="w-full h-full" ref={mapContainer} />
+        <div className="w-full h-full" id="map" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button className="absolute bottom-[60px] right-[10px] rounded-full" disabled={settingToCurrentLocation} onClick={handleSetToCurrentLocationClick}>
+            <Button className="absolute bottom-[60px] right-[10px] rounded-full z-[9999]" disabled={settingToCurrentLocation} onClick={handleSetToCurrentLocationClick}>
               {settingToCurrentLocation ? <Spinner /> : <FaLocationCrosshairs />}
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent className="z-[9999]">
             <p>{i18n.t("mapComponent.setToCurrentLocationTooltip")}</p>
           </TooltipContent>
         </Tooltip>

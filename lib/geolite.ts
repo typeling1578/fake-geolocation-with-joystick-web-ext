@@ -3,7 +3,6 @@ import * as mmdb from "mmdb-lib";
 import { CityResponse } from "mmdb-lib";
 import { TarReader } from "@gera2ld/tarjs";
 import fetchCore from "@/lib/fetch-core.ts";
-import maplibregl from "maplibre-gl";
 
 const DOWNLOAD_BASE_URL = "https://raw.githubusercontent.com/GitSquared/node-geolite2-redist/refs/heads/master/redist/";
 
@@ -114,7 +113,7 @@ export async function getIpLocation(ip: string) {
     { latitude: null, longitude: null };
 
   return (Number.isFinite(longitude) && Number.isFinite(latitude)) ?
-    new maplibregl.LngLat(longitude!, latitude!) :
+    { lat: latitude!, lng: longitude! } :
     null;
 }
 

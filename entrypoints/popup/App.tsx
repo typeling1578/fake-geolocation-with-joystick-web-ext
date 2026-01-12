@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import MapComponent from "@/components/MapComponent";
-import maplibregl from "maplibre-gl";
 import { FaPowerOff } from "react-icons/fa6";
 import { Button } from "@/components/ui/button.tsx";
 // @ts-expect-error: use @wxt-dev/i18n, see: https://wxt.dev/i18n#with-wxt
@@ -10,10 +9,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [fakeDefaultLatLng, setFakeDefaultLatLng] = useState<maplibregl.LngLat | null>(null);
+  const [fakeDefaultLatLng, setFakeDefaultLatLng] = useState<{ lat: number, lng: number } | null>(null);
   const [addonEnabled, setAddonEnabled] = useState(false);
 
-  function onLatLngChanged(coordinates: maplibregl.LngLat) {
+  function onLatLngChanged(coordinates: { lat: number, lng: number }) {
     browser.storage.local.set({
       fakeDefaultLatLng: {
         lat: coordinates.lat,
@@ -25,7 +24,7 @@ function App() {
   useEffect(() => {
     browser.storage.local.get("fakeDefaultLatLng")
       .then((data) => {
-        const coordinates = data.fakeDefaultLatLng as maplibregl.LngLat | undefined;
+        const coordinates = data.fakeDefaultLatLng as { lat: number, lng: number } | undefined;
         if (coordinates) {
           setFakeDefaultLatLng(coordinates);
         }

@@ -40,9 +40,6 @@ export default defineConfig({
         matches: ["<all_urls>"],
       }
     ],
-    content_security_policy: {
-      extension_pages: "script-src 'self'; object-src 'self'; worker-src 'self' blob:;",
-    },
     browser_specific_settings: {
       gecko: {
         id: "{9258360d-822b-4da0-82b7-33bca439e8e8}",
