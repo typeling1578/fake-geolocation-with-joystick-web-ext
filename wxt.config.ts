@@ -28,7 +28,7 @@ export default defineConfig({
     author: "typeling1578",
     homepage_url: "https://github.com/typeling1578/fake-geolocation-with-joystick-web-ext",
     default_locale: "en",
-    permissions: ["storage", "geolocation"/*, "alarms"*/],
+    permissions: ["storage", "geolocation"],
     host_permissions: [
       "https://protomaps.typeling1578.dev/pmtiles/download.php",
       "https://*.archive.org/*/items/protomaps-basemap-full-planet-file/*",

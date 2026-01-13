@@ -1,4 +1,3 @@
 patchedDependencies:
-  mmdb-lib: patches/mmdb-lib.patch
   wxt: patches/wxt.patch
 minimumReleaseAge: 7200

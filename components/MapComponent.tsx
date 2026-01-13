@@ -3,8 +3,6 @@ import L from "leaflet";
 import { leafletLayer } from "protomaps-leaflet";
 import { PMTiles } from "pmtiles";
 import "leaflet/dist/leaflet.css";
-import { getIpLocation } from "@/lib/geolite.ts";
-import {getPublicIPsWithApi, getPublicIPsWithWebRTC} from "@/lib/get-public-ip.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx";
@@ -83,46 +81,23 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
     };
   }, []);
 
-  async function setToCurrentLocation(useGeoLite = false) {
+  async function setToCurrentLocation() {
     if (!map) {
       return;
     }
 
-    let coordinates: LatLng;
-    if (navigator.geolocation && !useGeoLite) {
-      let position: GeolocationPosition;
-      try {
-        position = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            maximumAge: 0,
-            timeout: 1000 * 10,
-          });
-        });
-      } catch (error) {
-        console.error(error);
-        return setToCurrentLocation(true);
-      }
-      coordinates = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
-    } else {
-      let ips = await getPublicIPsWithApi();
-      if (!ips.ipv4 && !ips.ipv6) {
-        ips = await getPublicIPsWithWebRTC();
-        if (!ips.ipv4 && !ips.ipv6) {
-          throw new Error("No IP address found!");
-        }
-      }
+    const position: GeolocationPosition = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 1000 * 10,
+      });
+    });
 
-      const result = await getIpLocation(ips.ipv4 ? ips.ipv4! : ips.ipv6!);
-      if (!result) {
-        throw new Error("No IP address location found!");
-      }
-
-      coordinates = result;
-    }
+    const coordinates = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    };
 
     map.setView([coordinates.lat, coordinates.lng], 10);
     if (marker.current) {
