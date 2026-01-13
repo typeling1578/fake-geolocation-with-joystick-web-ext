@@ -3,6 +3,9 @@ import L from "leaflet";
 import { leafletLayer } from "protomaps-leaflet";
 import { PMTiles } from "pmtiles";
 import "leaflet/dist/leaflet.css";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { Button } from "@/components/ui/button.tsx";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx";
@@ -12,6 +15,15 @@ import { i18n } from "#i18n";
 import protomapsServerSelector from "@/lib/protomaps-server-selector.ts";
 
 type LatLng = { lat: number, lng: number };
+
+// @ts-expect-error: https://github.com/Leaflet/Leaflet/issues/9407#issuecomment-2246845787
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 export default function MapComponent({ style, className, defaultLatLng, onLatLngChanged }: { style?: CSSProperties, className?: string, defaultLatLng?: LatLng | null, onLatLngChanged: (coordinates: LatLng) => void }) {
   const theme = "light";
