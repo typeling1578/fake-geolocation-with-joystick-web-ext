@@ -24,6 +24,9 @@ export default defineConfig({
   manifest: {
     name: "__MSG_extName__",
     description: "__MSG_extDescription__",
+    // @ts-expect-error: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/author
+    author: "typeling1578",
+    homepage_url: "https://github.com/typeling1578/fake-geolocation-with-joystick-web-ext",
     default_locale: "en",
     permissions: ["storage", "geolocation"/*, "alarms"*/],
     host_permissions: [
