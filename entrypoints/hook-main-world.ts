@@ -20,7 +20,7 @@ export default defineUnlistedScript(() => {
         latitude: current_position[0],
         longitude: current_position[1],
         altitude: null,
-        accuracy: 0,
+        accuracy: 1,
         altitudeAccuracy: null,
         heading: null,
         speed: null,
