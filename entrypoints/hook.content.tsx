@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 
 export default defineContentScript({
   matches: ["<all_urls>"],
-  // runAt: "document_idle",
+  runAt: "document_start",
   // cssInjectionMode: "ui",
   async main(ctx) {
     if (!(await browser.storage.local.get({ enabled: false })).enabled) {
@@ -74,6 +74,6 @@ export default defineContentScript({
       },
     });
 
-    ui.mount();
+    ui.autoMount();
   },
 });
