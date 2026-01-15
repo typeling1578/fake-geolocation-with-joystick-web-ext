@@ -42,7 +42,6 @@
     "generatelicensefile": "license-checker-rseidelsohn --json --customPath license-checker-custom-format.json --out public/licenses.json"
   },
   "dependencies": {
-    "@gera2ld/tarjs": "^0.3.1",
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tailwindcss/vite": "^4.1.18",
