@@ -3,14 +3,9 @@ import JoyStick from "@/components/JoyStick";
 import ReactDOM from 'react-dom/client';
 
 export default defineContentScript({
-  matches: ["<all_urls>"],
-  runAt: "document_start",
+  registration: "runtime",
   // cssInjectionMode: "ui",
   async main(ctx) {
-    if (!(await browser.storage.local.get({ enabled: false })).enabled) {
-      return;
-    }
-
     const defaultPosition = await browser.storage.local.get("fakeDefaultLatLng")
       .then((data) =>
         data.fakeDefaultLatLng as { lat: number, lng: number }
