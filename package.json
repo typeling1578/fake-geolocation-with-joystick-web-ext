@@ -2,7 +2,7 @@
   "name": "fake-geolocation-with-joystick",
   "description": "Add-on for faking geolocation with joystick",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "license": "MPL-2.0",
   "author": {
