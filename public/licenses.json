@@ -1,16 +1,4 @@
 {
-    "@gera2ld/tarjs@0.3.1": {
-        "licenses": "MIT",
-        "repository": "https://github.com/gera2ld/tarjs",
-        "publisher": "Gerald",
-        "email": "gera2ld@live.com",
-        "path": "/home/runner/work/fake-geolocation-with-joystick-web-ext/fake-geolocation-with-joystick-web-ext/node_modules/@gera2ld/tarjs",
-        "licenseFile": "/home/runner/work/fake-geolocation-with-joystick-web-ext/fake-geolocation-with-joystick-web-ext/node_modules/@gera2ld/tarjs/LICENSE",
-        "licenseText": "MIT License\n\nCopyright (c) 2023 Gerald &lt;gera2ld@live.com&gt;\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
-        "copyright": "Copyright (c) 2023 Gerald &lt;gera2ld@live.com&gt;",
-        "name": "@gera2ld/tarjs",
-        "version": "0.3.1"
-    },
     "@radix-ui/react-slot@1.2.4": {
         "licenses": "MIT",
         "repository": "https://github.com/radix-ui/primitives",
