@@ -2,25 +2,24 @@
 import JoyStick from "@/components/JoyStick";
 import ReactDOM from 'react-dom/client';
 
+type StorageData = {
+  enabled: boolean | undefined,
+  fakeDefaultLatLng: { lat: number, lng: number } | undefined,
+};
+
 export default defineContentScript({
   matches: ["<all_urls>"],
   runAt: "document_start",
   // cssInjectionMode: "ui",
   async main(ctx) {
-    if (!(await browser.storage.local.get({ enabled: false })).enabled) {
+    const data = await browser.storage.local.get(["enabled", "fakeDefaultLatLng"]) as StorageData;
+    if (!data.enabled || !data.fakeDefaultLatLng) {
       return;
     }
-
-    const defaultPosition = await browser.storage.local.get("fakeDefaultLatLng")
-      .then((data) =>
-        data.fakeDefaultLatLng as { lat: number, lng: number }
-      )
-      .then((fakeDefaultLatLng) =>
-        fakeDefaultLatLng && [fakeDefaultLatLng.lat, fakeDefaultLatLng.lng]
-      );
-    if (!defaultPosition) {
-      return;
-    }
+    const defaultPosition = [
+      data.fakeDefaultLatLng.lat,
+      data.fakeDefaultLatLng.lng,
+    ];
 
     const { script } = await injectScript("/hook-main-world.js", {
       keepInDom: true,
