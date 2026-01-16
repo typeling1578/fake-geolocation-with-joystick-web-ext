@@ -5,6 +5,8 @@
 | <img align="center" src="https://github.com/user-attachments/assets/54e45474-5b27-4fe6-adb0-b76baceba624" alt="addon popup page" /> | <img align="center" src="https://github.com/user-attachments/assets/75b32cf7-9677-4b1d-8793-c2e03a198cd7" alt="faking geolocation" /> |
 | ------------- | ------------- |
 
+[![Get the add-on from addons.mozilla.org](https://github.com/user-attachments/assets/85b8556a-8578-4a87-a5ec-673690b79f9c)](https://addons.mozilla.org/addon/fake-geolocation-with-joystick/)
+
 ## How to use
 
 ### 1. First, pick a fake location.
