@@ -2,6 +2,13 @@ name: Packaging
 
 on:
   workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        required: true
+        options:
+          - "Artifact"
+          - "Release"
 
 jobs:
   packaging:
