@@ -59,6 +59,7 @@ jobs:
           include-hidden-files: true
 
   release:
+    if: github.event.inputs.choice == 'Release'
     runs-on: ubuntu-24.04
     needs: [packaging]
 
