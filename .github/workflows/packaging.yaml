@@ -2,6 +2,13 @@ name: Packaging
 
 on:
   workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        required: true
+        options:
+          - "Artifact"
+          - "Release"
 
 jobs:
   packaging:
@@ -50,3 +57,77 @@ jobs:
           name: sourcecode
           path: .output/*-sources.zip
           include-hidden-files: true
+
+  release:
+    if: github.event.inputs.choice == 'Release'
+    runs-on: ubuntu-24.04
+    needs: [packaging]
+    environment: release
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          path: ./workspace
+          merge-multiple: true
+
+      - name: Get version from package
+        id: get-version-from-package
+        run: |
+          EXTENSION_VERSION=$(unzip -p ./workspace/*-firefox.zip manifest.json | jq -r ".version")
+          echo "EXTENSION_VERSION=$EXTENSION_VERSION" >> $GITHUB_OUTPUT
+
+      - uses: softprops/action-gh-release@6cbd405e2c4e67a21c47fa9e383d020e4e28b836 # v2.3.3
+        with:
+          draft: true
+          name: Release v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
+          tag_name: v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
+          files: |
+            ./workspace/*-chrome.zip
+            ./workspace/*-firefox.zip
+
+  submit-to-stores:
+    if: github.event.inputs.choice == 'Release'
+    runs-on: ubuntu-24.04
+    needs: [packaging]
+    environment: submit-to-stores
+
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          path: ./workspace
+          merge-multiple: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Setup corepack
+        run: |
+          corepack enable
+          corepack enable pnpm
+
+      - name: Install wxt
+        run: |
+          cd ./workspace
+          pnpm init
+          pnpm config set --location=project minimumReleaseAge 7200
+          pnpm install wxt
+
+      - name: Submit to stores
+        run: |
+          cd ./workspace
+          pnpm wxt submit \
+            --chrome-zip ./*-chrome.zip \
+            --firefox-zip ./*-firefox.zip --firefox-sources-zip ./*-sources.zip
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          CHROME_SKIP_SUBMIT_REVIEW: true
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
