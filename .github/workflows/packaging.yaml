@@ -74,6 +74,7 @@ jobs:
       - name: Install wxt
         run: |
           cd ./workspace
+          ls -R
           pnpm init
           pnpm config set --location=project minimumReleaseAge 7200
           pnpm install wxt
