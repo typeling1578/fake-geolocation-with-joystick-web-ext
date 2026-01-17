@@ -80,7 +80,6 @@ jobs:
 
       - uses: softprops/action-gh-release@6cbd405e2c4e67a21c47fa9e383d020e4e28b836 # v2.3.3
         with:
-          draft: true
           name: Release v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
           tag_name: v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
           files: |
