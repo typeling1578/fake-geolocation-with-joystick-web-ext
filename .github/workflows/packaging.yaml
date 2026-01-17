@@ -82,7 +82,7 @@ jobs:
         with:
           draft: true
           name: Release v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
-          tag_name: v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}-test
+          tag_name: v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
           files: |
             ./workspace/*-chrome.zip
             ./workspace/*-firefox.zip
@@ -119,7 +119,7 @@ jobs:
       - name: Submit to stores
         run: |
           cd ./workspace
-          pnpm wxt submit --dry-run \
+          pnpm wxt submit \
             --chrome-zip ./*-chrome.zip \
             --firefox-zip ./*-firefox.zip --firefox-sources-zip ./*-sources.zip
         env:
