@@ -114,7 +114,7 @@ jobs:
         with:
           draft: true
           name: Release v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
-          tag_name: v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
+          tag_name: v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}-test
           files: |
             ./workspace/*-chrome.zip
             ./workspace/*-firefox.zip
