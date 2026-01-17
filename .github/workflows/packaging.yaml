@@ -62,6 +62,7 @@ jobs:
     if: github.event.inputs.choice == 'Release'
     runs-on: ubuntu-24.04
     needs: [packaging]
+    environment: release
     permissions:
       contents: write
 
@@ -90,6 +91,7 @@ jobs:
     if: github.event.inputs.choice == 'Release'
     runs-on: ubuntu-24.04
     needs: [packaging]
+    environment: submit-to-stores
 
     steps:
       - uses: actions/download-artifact@v7
