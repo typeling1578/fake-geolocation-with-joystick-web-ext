@@ -78,7 +78,7 @@ jobs:
           EXTENSION_VERSION=$(unzip -p ./workspace/*-firefox.zip manifest.json | jq -r ".version")
           echo "EXTENSION_VERSION=$EXTENSION_VERSION" >> $GITHUB_OUTPUT
 
-      - uses: softprops/action-gh-release@6cbd405e2c4e67a21c47fa9e383d020e4e28b836 # v2.3.3
+      - uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           name: Release v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
           tag_name: v${{ steps.get-version-from-package.outputs.EXTENSION_VERSION }}
