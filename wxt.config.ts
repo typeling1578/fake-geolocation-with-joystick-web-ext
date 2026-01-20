@@ -54,6 +54,7 @@ export default defineConfig({
       },
     },
     minimum_chrome_version: "126",
+    key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAreX5EfQ6zqVJ0TmpHniMyglusG+ytVyrz/d0pwuOtRfuNkfYGkaYWJ8Glmgt/pvJwG24rupLcDi4x16vRpcRCpWv8C41Zjfat7hDRQWF/d10XtBsOLFWX9RB1QvokaeqoI29faD9ad7zapPw9EbKoFmusVogfZQXApEBqNbNUaVfBaBecjE9dzJ0Oo2zJzW9m5llIZr7aDhjZXBZQdsuTTgaFMQ6o0LQpVP3Xyt98zA5Sex/irkJL1+SLjGbCd2ZMlwG2qpQk+RsMKTXKXvNXfCpNw6zu6Uv4OXrCd42yILGkF+IriOuGnyZ6J0aOPQK7Xs83+I2zuyi9yu/Te9+zQIDAQAB",
   },
   webExt: {
     binaries: {
