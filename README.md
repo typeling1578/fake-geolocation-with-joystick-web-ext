@@ -6,6 +6,7 @@
 | ------------- | ------------- |
 
 [![Get the add-on from addons.mozilla.org](https://github.com/user-attachments/assets/85b8556a-8578-4a87-a5ec-673690b79f9c)](https://addons.mozilla.org/addon/fake-geolocation-with-joystick/)
+[![Available in the Chrome Web Store](https://github.com/user-attachments/assets/44f12ace-c1d1-4dc4-adc4-1c94ae394547)](https://chromewebstore.google.com/detail/fake-geolocation-with-joy/mkdjohmipbknigdaonecagheejihomom)
 
 ## How to use
 
