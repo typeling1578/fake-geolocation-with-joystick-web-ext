@@ -93,6 +93,8 @@ jobs:
     runs-on: ubuntu-24.04
     needs: [packaging]
     environment: submit-to-stores
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/download-artifact@v7
