@@ -40,21 +40,21 @@ jobs:
         run: pnpm run zip:firefox
 
       - name: Upload chrome zip
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: chrome-mv3-build
           path: .output/*-chrome.zip
           include-hidden-files: true
 
       - name: Upload firefox zip
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: firefox-mv2-build
           path: .output/*-firefox.zip
           include-hidden-files: true
 
       - name: Upload sourcecode zip
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: sourcecode
           path: .output/*-sources.zip
