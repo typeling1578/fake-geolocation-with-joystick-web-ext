@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   wxt:
-    hash: f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1
+    hash: 8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2
     path: patches/wxt.patch
 
 importers:
@@ -24,7 +24,7 @@ importers:
         version: 4.2.2(vite@8.0.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1))
       '@wxt-dev/i18n':
         specifier: ^0.2.5
-        version: 0.2.5(wxt@0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1))
+        version: 0.2.5(wxt@0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1))
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -73,7 +73,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       '@wxt-dev/module-react':
         specifier: ^1.2.2
-        version: 1.2.2(vite@8.0.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1))(wxt@0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1))
+        version: 1.2.2(vite@8.0.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1))(wxt@0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1))
       license-checker-rseidelsohn:
         specifier: ^4.4.2
         version: 4.4.2
@@ -85,7 +85,7 @@ importers:
         version: 5.9.3
       wxt:
         specifier: ^0.20.20
-        version: 0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1)
+        version: 0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1)
 
 packages:
 
@@ -3079,20 +3079,20 @@ snapshots:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
 
-  '@wxt-dev/i18n@0.2.5(wxt@0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1))':
+  '@wxt-dev/i18n@0.2.5(wxt@0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1))':
     dependencies:
       '@wxt-dev/browser': 0.1.38
       chokidar: 5.0.0
       confbox: 0.2.4
       fast-glob: 3.3.3
     optionalDependencies:
-      wxt: 0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1)
+      wxt: 0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1)
 
-  '@wxt-dev/module-react@1.2.2(vite@8.0.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1))(wxt@0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1))':
+  '@wxt-dev/module-react@1.2.2(vite@8.0.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1))(wxt@0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1))':
     dependencies:
       '@vitejs/plugin-react': 6.0.1(vite@8.0.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1))
       vite: 8.0.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)
-      wxt: 0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1)
+      wxt: 0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1)
     transitivePeerDependencies:
       - '@rolldown/plugin-babel'
       - babel-plugin-react-compiler
@@ -4641,7 +4641,7 @@ snapshots:
       is-wsl: 3.1.1
       powershell-utils: 0.1.0
 
-  wxt@0.20.20(patch_hash=f09582aee2979f45120db6b831a9e2b8618256d1500a3ad92700afc4221b81d1)(@types/node@25.5.0)(jiti@2.6.1):
+  wxt@0.20.20(patch_hash=8ee4bb2c0e65d294166624f7cff752d68c0c31117ffef298b43c17e37596f5d2)(@types/node@25.5.0)(jiti@2.6.1):
     dependencies:
       '@1natsu/wait-element': 4.1.2
       '@aklinker1/rollup-plugin-visualizer': 5.12.0
