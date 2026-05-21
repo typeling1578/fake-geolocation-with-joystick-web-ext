@@ -19,7 +19,7 @@
         "name": "@radix-ui/react-tooltip",
         "version": "1.2.8"
     },
-    "@tailwindcss/vite@4.2.4": {
+    "@tailwindcss/vite@4.3.0": {
         "licenses": "MIT",
         "repository": "https://github.com/tailwindlabs/tailwindcss",
         "path": "/home/runner/work/fake-geolocation-with-joystick-web-ext/fake-geolocation-with-joystick-web-ext/node_modules/@tailwindcss/vite",
@@ -27,7 +27,7 @@
         "licenseText": "MIT License\n\nCopyright (c) Tailwind Labs, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
         "copyright": "Copyright (c) Tailwind Labs, Inc.",
         "name": "@tailwindcss/vite",
-        "version": "4.2.4"
+        "version": "4.3.0"
     },
     "@types/leaflet@1.9.21": {
         "licenses": "MIT",
@@ -216,7 +216,7 @@
         "name": "react",
         "version": "19.2.6"
     },
-    "tailwind-merge@3.5.0": {
+    "tailwind-merge@3.6.0": {
         "licenses": "MIT",
         "repository": "https://github.com/dcastil/tailwind-merge",
         "publisher": "Dany Castillo",
@@ -225,9 +225,9 @@
         "licenseText": "MIT License\n\nCopyright (c) 2021 Dany Castillo\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
         "copyright": "Copyright (c) 2021 Dany Castillo",
         "name": "tailwind-merge",
-        "version": "3.5.0"
+        "version": "3.6.0"
     },
-    "tailwindcss@4.2.4": {
+    "tailwindcss@4.3.0": {
         "licenses": "MIT",
         "repository": "https://github.com/tailwindlabs/tailwindcss",
         "path": "/home/runner/work/fake-geolocation-with-joystick-web-ext/fake-geolocation-with-joystick-web-ext/node_modules/tailwindcss",
@@ -235,7 +235,7 @@
         "licenseText": "MIT License\n\nCopyright (c) Tailwind Labs, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
         "copyright": "Copyright (c) Tailwind Labs, Inc.",
         "name": "tailwindcss",
-        "version": "4.2.4"
+        "version": "4.3.0"
     },
     "tw-animate-css@1.4.0": {
         "licenses": "MIT",
@@ -259,7 +259,7 @@
         "version": "6.0.3",
         "copyright": ""
     },
-    "wxt@0.20.25": {
+    "wxt@0.20.26": {
         "licenses": "MIT",
         "repository": "https://github.com/wxt-dev/wxt",
         "publisher": "Aaron Klinker",
@@ -268,7 +268,7 @@
         "licenseFile": "/home/runner/work/fake-geolocation-with-joystick-web-ext/fake-geolocation-with-joystick-web-ext/node_modules/wxt/README.md",
         "licenseText": "<!-- DO NOT EDIT, THIS FILE WAS GENERATED BY '../../scripts/generate-readmes.sh' -->\n<div align=\"center\">\n\n# <img align=\"top\" width=\"44\" src=\"https://raw.githubusercontent.com/wxt-dev/wxt/HEAD/docs/public/hero-logo.svg\" alt=\"WXT Logo\"> WXT\n\n[![npm version](https://img.shields.io/npm/v/wxt?labelColor=black&color=%234fa048)](https://www.npmjs.com/package/wxt)\n[![downloads](https://img.shields.io/npm/dm/wxt?labelColor=black&color=%234fa048)](https://www.npmjs.com/package/wxt)\n[![license | MIT](https://img.shields.io/npm/l/wxt?labelColor=black&color=%234fa048)](https://github.com/wxt-dev/wxt/blob/main/LICENSE)\n[![coverage](https://img.shields.io/codecov/c/github/wxt-dev/wxt?labelColor=black&color=%234fa048)](https://codecov.io/github/wxt-dev/wxt)\n\nNext-gen framework for developing web extensions.<br/>⚡<br/><q><i>It's like Nuxt, but for Web Extensions</i></q>\n\n[Get Started](https://wxt.dev/guide/installation.html) •\n[Configuration](https://wxt.dev/api/config.html) •\n[Examples](https://wxt.dev/examples.html) •\n[Changelog](https://github.com/wxt-dev/wxt/blob/main/packages/wxt/CHANGELOG.md) •\n[Discord](https://discord.gg/ZFsZqGery9)\n\n</div>\n\n![Example CLI Output](https://raw.githubusercontent.com/wxt-dev/wxt/HEAD/docs/assets/cli-output.png)\n\n## Demo\n\n<https://github.com/wxt-dev/wxt/assets/10101283/4d678939-1bdb-495c-9c36-3aa281d84c94>\n\n## Quick Start\n\nBootstrap a new project:\n\n```sh\n# npm\nnpx wxt@latest init\n\n# pnpm\npnpm dlx wxt@latest init\n\n# bun\nbunx wxt@latest init\n```\n\nOr see the [installation guide](https://wxt.dev/guide/installation.html) to get started with WXT.\n\n## Features\n\n- 🌐 Supports all browsers\n- ✅ Supports both MV2 and MV3\n- ⚡ Dev mode with HMR & fast reload\n- 📂 File based entrypoints\n- 🚔 TypeScript\n- 🦾 Auto-imports\n- 🤖 Automated publishing\n- 🎨 Frontend framework agnostic: works with Vue, React, Svelte, etc\n- 📦 [Module system](https://wxt.dev/guide/essentials/wxt-modules.html#overview) for reusing code between extensions\n- 🖍️ Quickly bootstrap a new project\n- 📏 Bundle analysis\n- ⬇️ Download and bundle remote URL imports\n\n## Sponsors\n\nWXT is a [MIT-licensed](https://github.com/wxt-dev/wxt/blob/main/LICENSE) open source project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider [sponsoring WXT's development](https://github.com/sponsors/wxt-dev).\n\n[![WXT Sponsors](https://raw.githubusercontent.com/wxt-dev/static/refs/heads/main/sponsorkit/sponsors.svg)](https://github.com/sponsors/wxt-dev)\n\n## Contributors\n\nPublished under the [MIT](https://github.com/wxt-dev/wxt/blob/main/LICENSE) license.\nMade by [@aklinker1](https://github.com/aklinker1) and [community](https://github.com/wxt-dev/wxt/graphs/contributors) 💛\n\n[![WXT contributors](https://contrib.rocks/image?repo=wxt-dev/wxt)](https://github.com/wxt-dev/wxt/graphs/contributors)",
         "name": "wxt",
-        "version": "0.20.25",
+        "version": "0.20.26",
         "copyright": ""
     }
 }
