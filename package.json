@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.21",
-    "@types/react": "^19.2.16",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@wxt-dev/module-react": "^1.2.2",
     "license-checker-rseidelsohn": "^4.4.2",
