@@ -1,3 +1,4 @@
-patchedDependencies:
-  wxt: patches/wxt.patch
+allowBuilds:
+  esbuild: false
+  spawn-sync: false
 minimumReleaseAge: 7200
