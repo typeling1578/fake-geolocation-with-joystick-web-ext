@@ -60,6 +60,16 @@ function App() {
     //   return;
     // }
 
+    if (!addonEnabled) {
+      // In MV3, host permissions can be withheld by the user (e.g. Firefox), and
+      // the hook scripts are not injected without them. This must be the first
+      // await so the request still counts as a user action.
+      const granted = await browser.permissions.request({ origins: ["<all_urls>"] });
+      if (!granted) {
+        return;
+      }
+    }
+
     await browser.storage.local.set({
       enabled: !(await browser.storage.local.get({ enabled: false })).enabled
     });

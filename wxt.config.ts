@@ -12,6 +12,8 @@ try {
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
+  // Build Firefox as MV3 as well, so the MAIN world content script can be used.
+  manifestVersion: 3,
   modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],
   vite: () => ({
     plugins: [tailwindcss()],
@@ -28,17 +30,11 @@ export default defineConfig({
     author: "typeling1578",
     homepage_url: "https://github.com/typeling1578/fake-geolocation-with-joystick-web-ext",
     default_locale: "en",
-    permissions: ["storage", "geolocation"],
+    permissions: ["storage", "geolocation", "scripting"],
     host_permissions: [
       "https://protomaps.typeling1578.dev/pmtiles/download.php",
       "https://*.archive.org/*/items/protomaps-basemap-full-planet-file/*",
       "https://archive.org/download/protomaps-basemap-full-planet-file/*",
-    ],
-    web_accessible_resources: [
-      {
-        resources: ["hook-main-world.js"],
-        matches: ["<all_urls>"],
-      }
     ],
     browser_specific_settings: {
       gecko: {
