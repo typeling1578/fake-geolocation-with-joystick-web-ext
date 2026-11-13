@@ -6,10 +6,12 @@ import {
   type HookMessage,
   type LatLng,
 } from "@/lib/hook-protocol.ts";
+import { DEFAULT_SPEED_MPS, isValidSpeed } from "@/lib/movement.ts";
 
 type StorageData = {
   enabled: boolean | undefined,
   fakeDefaultLatLng: LatLng | undefined,
+  moveSpeed: number | undefined,
 };
 
 function isJoystickMessage(message: unknown): message is Extract<HookMessage, { type: "joystick" }> {
@@ -66,9 +68,10 @@ export default defineContentScript({
     // -----------------------------------------------------------------------
     // Pass the configuration.
     // -----------------------------------------------------------------------
-    const data = await browser.storage.local.get(["enabled", "fakeDefaultLatLng"]) as StorageData;
+    const data = await browser.storage.local.get(["enabled", "fakeDefaultLatLng", "moveSpeed"]) as StorageData;
     const position = data.enabled ? data.fakeDefaultLatLng ?? null : null;
-    send({ type: "config", position });
+    const speed = isValidSpeed(data.moveSpeed) ? data.moveSpeed : DEFAULT_SPEED_MPS;
+    send({ type: "config", position, speed });
 
     browser.storage.onChanged.addListener((changes, areaName) => {
       if (areaName !== "local") {
@@ -77,6 +80,10 @@ export default defineContentScript({
       const latlng = changes["fakeDefaultLatLng"]?.newValue as LatLng | undefined;
       if (latlng) {
         send({ type: "position-changed", position: { lat: latlng.lat, lng: latlng.lng } });
+      }
+      if ("moveSpeed" in changes) {
+        const newSpeed = changes["moveSpeed"].newValue;
+        send({ type: "speed-changed", speed: isValidSpeed(newSpeed) ? newSpeed : DEFAULT_SPEED_MPS });
       }
     });
 

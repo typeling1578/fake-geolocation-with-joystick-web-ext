@@ -23,9 +23,14 @@ export type LatLng = { lat: number; lng: number };
 
 /** Messages sent from the ISOLATED world to the MAIN world. */
 export type HookMessage =
-  /** Initial configuration. `position: null` means no fake location is set. */
-  | { type: "config"; position: LatLng | null }
+  /**
+   * Initial configuration. `position: null` means no fake location is set.
+   * `speed` is the movement speed at full joystick tilt, in meters per second.
+   */
+  | { type: "config"; position: LatLng | null; speed: number }
   /** The fake default location was changed from the popup. */
   | { type: "position-changed"; position: LatLng }
+  /** The movement speed was changed from the popup (meters per second). */
+  | { type: "speed-changed"; speed: number }
   /** Joystick input, both axes in the range [-1, 1]. */
   | { type: "joystick"; x: number; y: number };

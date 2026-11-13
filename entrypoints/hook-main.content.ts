@@ -4,6 +4,13 @@ import {
   type HookMessage,
   type LatLng,
 } from "@/lib/hook-protocol.ts";
+import {
+  DEFAULT_SPEED_MPS,
+  isValidSpeed,
+  joystickToMotion,
+  movePosition,
+  type Motion,
+} from "@/lib/movement.ts";
 
 /**
  * Runs in the page's MAIN world at document_start, before any page script.
@@ -47,6 +54,7 @@ export default defineContentScript({
     const _clearTimeout = clearTimeout;
     const _setInterval = setInterval;
     const _dateNow = Date.now;
+    const _performanceNow = performance.now.bind(performance);
     const _CustomEvent = CustomEvent;
     const consoleError = console.error;
 
@@ -54,6 +62,8 @@ export default defineContentScript({
     const CONFIG_WAIT_LIMIT_MS = 10_000;
     /** Delay before invoking callbacks, mimicking a real position lookup. */
     const CALLBACK_DELAY_MS = 100;
+    /** How often the position is advanced and watchers are notified while moving. */
+    const MOVE_INTERVAL_MS = 250;
 
     // -----------------------------------------------------------------------
     // State
@@ -81,8 +91,12 @@ export default defineContentScript({
     let watchIdCount = 0;
     const watchers = new Map<number, Watcher>();
 
+    /** Speed at full joystick tilt, in meters per second. */
+    let maxSpeed: number = DEFAULT_SPEED_MPS;
     let joystickX = 0;
     let joystickY = 0;
+    /** Current speed and heading, derived from the joystick input. */
+    let motion: Motion = { speed: 0, heading: NaN };
 
     // -----------------------------------------------------------------------
     // Helpers
@@ -95,8 +109,8 @@ export default defineContentScript({
           altitude: null,
           accuracy: 1,
           altitudeAccuracy: null,
-          heading: null,
-          speed: null,
+          heading: motion.heading,
+          speed: motion.speed,
           toJSON: function () {
             return JSON.parse(JSON.stringify(this));
           },
@@ -241,6 +255,9 @@ export default defineContentScript({
           if (state.status !== "pending") {
             return;
           }
+          if (isValidSpeed(message.speed)) {
+            maxSpeed = message.speed;
+          }
           const position = message.position;
           state = isValidLatLng(position)
             ? { status: "ready", position: [position.lat, position.lng] }
@@ -255,6 +272,7 @@ export default defineContentScript({
           }
           const wasPending = state.status !== "ready";
           state = { status: "ready", position: [position.lat, position.lng] };
+          lastMoveTime = _performanceNow();
           if (wasPending) {
             flushPending();
           } else {
@@ -262,10 +280,18 @@ export default defineContentScript({
           }
           break;
         }
+        case "speed-changed": {
+          if (isValidSpeed(message.speed)) {
+            maxSpeed = message.speed;
+            updateMotion();
+          }
+          break;
+        }
         case "joystick": {
-          if (typeof message.x === "number" && typeof message.y === "number") {
-            joystickX = message.x;
-            joystickY = message.y;
+          if (Number.isFinite(message.x) && Number.isFinite(message.y)) {
+            joystickX = Math.max(-1, Math.min(1, message.x));
+            joystickY = Math.max(-1, Math.min(1, message.y));
+            updateMotion();
           }
           break;
         }
@@ -327,13 +353,35 @@ export default defineContentScript({
     // -----------------------------------------------------------------------
     // Joystick movement
     // -----------------------------------------------------------------------
-    _setInterval(() => {
-      if (state.status !== "ready" || (joystickX === 0 && joystickY === 0)) {
-        return;
+    let lastMoveTime = _performanceNow();
+
+    function updateMotion() {
+      const wasMoving = motion.speed > 0;
+      // Advance up to now with the previous motion before switching to the new one.
+      advance();
+      motion = joystickToMotion(joystickX, joystickY, maxSpeed);
+      // Report the stop right away so that speed 0 reaches the page.
+      if (wasMoving && motion.speed === 0) {
+        notifyWatchers();
       }
-      state.position[0] += 0.0005 * joystickY;
-      state.position[1] += 0.0005 * joystickX;
-      notifyWatchers();
-    }, 1000);
+    }
+
+    function advance() {
+      const now = _performanceNow();
+      // Cap the step so a throttled background tab does not jump far at once.
+      const seconds = Math.min((now - lastMoveTime) / 1000, 5);
+      lastMoveTime = now;
+      if (state.status !== "ready" || motion.speed === 0) {
+        return false;
+      }
+      state.position = movePosition(state.position, motion, seconds);
+      return true;
+    }
+
+    _setInterval(() => {
+      if (advance()) {
+        notifyWatchers();
+      }
+    }, MOVE_INTERVAL_MS);
   },
 });
