@@ -33,6 +33,17 @@ export default defineContentScript({
   world: "MAIN",
   registration: "runtime",
   main() {
+    // Report the geolocation permission as granted, consistent with the fake
+    // API, which answers without asking.
+    const originalQuery = Permissions.prototype.query;
+    Permissions.prototype.query = async function (descriptor: PermissionDescriptor) {
+      const status = await originalQuery.call(this, descriptor);
+      if (descriptor?.name === "geolocation") {
+        Object.defineProperty(status, "state", { value: "granted" });
+      }
+      return status;
+    };
+
     // -----------------------------------------------------------------------
     // Keep references to built-ins we rely on, before page scripts can
     // replace them.
