@@ -11,6 +11,7 @@ import {
   movePosition,
   type Motion,
 } from "@/lib/movement.ts";
+import { patchGeolocationPermission } from "@/lib/main-world/permissions.ts";
 
 /**
  * Runs in the page's MAIN world at document_start, before any page script.
@@ -33,6 +34,9 @@ export default defineContentScript({
   world: "MAIN",
   registration: "runtime",
   main() {
+    // Report the geolocation permission as granted, consistent with the fake API.
+    patchGeolocationPermission();
+
     // -----------------------------------------------------------------------
     // Keep references to built-ins we rely on, before page scripts can
     // replace them.
