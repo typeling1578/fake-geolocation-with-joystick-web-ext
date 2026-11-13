@@ -8,5 +8,14 @@ popup:
   setFakeGeolocationDescription: First, pick a fake location.
   setFakeGeolocationHint: You can set the location by clicking on the map.
 
+speedSelector:
+  title: Movement speed
+  hint: Speed when the joystick is fully tilted.
+  presets:
+    walk: Walk
+    run: Run
+    bicycle: Bicycle
+    car: Car
+
 mapComponent:
   setToCurrentLocationTooltip: Set to current location (experimental)

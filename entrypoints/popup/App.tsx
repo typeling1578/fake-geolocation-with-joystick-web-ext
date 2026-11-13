@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import MapComponent from "@/components/MapComponent";
+import SpeedSelector from "@/components/SpeedSelector";
 import { FaPowerOff } from "react-icons/fa6";
 import { Button } from "@/components/ui/button.tsx";
 // @ts-expect-error: use @wxt-dev/i18n, see: https://wxt.dev/i18n#with-wxt
@@ -88,6 +89,8 @@ function App() {
             <p>{addonEnabled ? i18n.t("popup.addonEnabledTooltip") : i18n.t("popup.addonDisabledTooltip")}</p>
           </TooltipContent>
         </Tooltip>
+        <hr className="my-2" />
+        <SpeedSelector />
         <hr className="my-2" />
       </div>
       <div className="basis-full flex flex-col gap-2">
