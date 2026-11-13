@@ -12,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/typeling1578/fake-geolocation-with-joystick.git"
+    "url": "https://github.com/typeling1578/fake-geolocation-with-joystick-web-ext.git"
   },
   "bugs": {
-    "url": "https://github.com/typeling1578/fake-geolocation-with-joystick/issues"
+    "url": "https://github.com/typeling1578/fake-geolocation-with-joystick-web-ext/issues"
   },
   "contributors": [
     "typeling1578",
@@ -46,11 +46,9 @@
     "@radix-ui/react-tooltip": "^1.2.16",
     "@tailwindcss/vite": "^4.3.3",
     "@wxt-dev/i18n": "^0.2.7",
-    "buffer": "^6.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
-    "lucide-react": "^0.577.0",
     "pmtiles": "^4.5.0",
     "protomaps-leaflet": "^5.1.0",
     "react": "^19.2.8",

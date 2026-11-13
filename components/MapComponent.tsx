@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, CSSProperties } from "react";
+import { useEffect, useState, useRef, type CSSProperties } from "react";
 import L from "leaflet";
 import { leafletLayer } from "protomaps-leaflet";
 import { PMTiles } from "pmtiles";
@@ -27,6 +27,7 @@ L.Icon.Default.mergeOptions({
 
 export default function MapComponent({ style, className, defaultLatLng, onLatLngChanged }: { style?: CSSProperties, className?: string, defaultLatLng?: LatLng | null, onLatLngChanged: (coordinates: LatLng) => void }) {
   const theme = "light";
+  const mapContainer = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<L.Map | null>(null);
   const marker = useRef<L.LayerGroup<any> | null>(null);
   const [settingToCurrentLocation, setSettingToCurrentLocation] = useState(false);
@@ -53,7 +54,13 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
   }
 
   useEffect(() => {
-    const map = L.map("map", {
+    if (!mapContainer.current) {
+      return;
+    }
+    // Set to true on cleanup, so async work does not touch a removed map.
+    let disposed = false;
+
+    const map = L.map(mapContainer.current, {
       center: [0, 0],
       zoom: 0,
       maxBounds: L.latLngBounds([-90, -Infinity], [90, Infinity]),
@@ -67,6 +74,9 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
 
     (async () => {
       const protomapsServer = await protomapsServerSelector();
+      if (disposed) {
+        return;
+      }
 
       const layer = leafletLayer({
         // @ts-expect-error: https://github.com/protomaps/protomaps-leaflet/blob/7aeddd926cbfef084fb72c1be45b3bab7532fe45/src/view.ts#L250
@@ -89,7 +99,9 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
     setMap(map);
 
     return () => {
+      disposed = true;
       map.remove();
+      marker.current = null;
     };
   }, []);
 
@@ -132,7 +144,7 @@ export default function MapComponent({ style, className, defaultLatLng, onLatLng
   return (
     <div style={style} className={className}>
       <div className="relative w-full h-full">
-        <div className="w-full h-full" id="map" />
+        <div className="w-full h-full" ref={mapContainer} />
         <Tooltip>
           <TooltipTrigger asChild>
             <Button className="absolute bottom-[60px] right-[10px] rounded-full z-[9999]" disabled={settingToCurrentLocation} onClick={handleSetToCurrentLocationClick}>
