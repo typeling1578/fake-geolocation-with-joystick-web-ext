@@ -1,64 +1,110 @@
-// import "./components/joystick.css";
 import JoyStick from "@/components/JoyStick";
-import ReactDOM from 'react-dom/client';
+import ReactDOM from "react-dom/client";
+import {
+  HANDSHAKE_KEY,
+  REQUEST_PORT_EVENT,
+  type HookMessage,
+  type LatLng,
+} from "@/lib/hook-protocol.ts";
 
 type StorageData = {
   enabled: boolean | undefined,
-  fakeDefaultLatLng: { lat: number, lng: number } | undefined,
+  fakeDefaultLatLng: LatLng | undefined,
 };
 
+function isJoystickMessage(message: unknown): message is Extract<HookMessage, { type: "joystick" }> {
+  return (
+    typeof message === "object" && message !== null &&
+    (message as { type?: unknown }).type === "joystick" &&
+    typeof (message as { x?: unknown }).x === "number" &&
+    typeof (message as { y?: unknown }).y === "number"
+  );
+}
+
+/**
+ * Runs in the ISOLATED world next to the MAIN world hook
+ * (entrypoints/hook-main.content.ts). It passes the fake location and joystick
+ * input to the hook, and shows the joystick UI.
+ *
+ * This script is registered by the background script only while the add-on
+ * is enabled (see entrypoints/background.ts).
+ */
 export default defineContentScript({
   matches: ["<all_urls>"],
   runAt: "document_start",
-  // cssInjectionMode: "ui",
+  allFrames: true,
+  matchAboutBlank: true,
+  matchOriginAsFallback: true,
+  registration: "runtime",
   async main(ctx) {
-    const data = await browser.storage.local.get(["enabled", "fakeDefaultLatLng"]) as StorageData;
-    if (!data.enabled || !data.fakeDefaultLatLng) {
-      return;
-    }
-    const defaultPosition = [
-      data.fakeDefaultLatLng.lat,
-      data.fakeDefaultLatLng.lng,
-    ];
+    // -----------------------------------------------------------------------
+    // Connect to the MAIN world synchronously, before page scripts run.
+    // -----------------------------------------------------------------------
+    const ports: MessagePort[] = [];
 
-    const { script } = await injectScript("/hook-main-world.js", {
-      keepInDom: true,
-      modifyScript(script) {
-        script.dataset["default_position"] = JSON.stringify(defaultPosition);
-      },
-    });
+    function sendPort() {
+      const channel = new MessageChannel();
+      ports.push(channel.port1);
+      window.postMessage({ [HANDSHAKE_KEY]: true }, "*", [channel.port2]);
+    }
+
+    function send(message: HookMessage) {
+      // Only the port accepted by the MAIN world is listened to; the others are ignored.
+      for (const port of ports) {
+        port.postMessage(message);
+      }
+    }
+
+    sendPort();
+    // The MAIN world asks for another port if it missed the first one.
+    window.addEventListener(REQUEST_PORT_EVENT, () => {
+      if (ports.length < 2) {
+        sendPort();
+      }
+    }, { once: true });
+
+    // -----------------------------------------------------------------------
+    // Pass the configuration.
+    // -----------------------------------------------------------------------
+    const data = await browser.storage.local.get(["enabled", "fakeDefaultLatLng"]) as StorageData;
+    const position = data.enabled ? data.fakeDefaultLatLng ?? null : null;
+    send({ type: "config", position });
 
     browser.storage.onChanged.addListener((changes, areaName) => {
       if (areaName !== "local") {
         return;
       }
-      if (!Object.keys(changes).includes("fakeDefaultLatLng")) {
-        return;
+      const latlng = changes["fakeDefaultLatLng"]?.newValue as LatLng | undefined;
+      if (latlng) {
+        send({ type: "position-changed", position: { lat: latlng.lat, lng: latlng.lng } });
       }
-
-      const latlng = changes["fakeDefaultLatLng"].newValue as { lat: number, lng: number };
-      script.dispatchEvent(
-        new CustomEvent("default-position-changed", {
-          // @ts-expect-error: FirefoxではcloneIntoでクローンしないとアクセスが拒否される
-          detail: typeof cloneInto !== "undefined" ? cloneInto(latlng, window) : latlng,
-        }),
-      );
     });
 
+    if (!position) {
+      return;
+    }
+
+    // -----------------------------------------------------------------------
+    // Joystick UI (top-level frame only). Input is relayed to subframes
+    // through the background script.
+    // -----------------------------------------------------------------------
+    if (window !== window.top) {
+      browser.runtime.onMessage.addListener((message: unknown) => {
+        if (isJoystickMessage(message)) {
+          send({ type: "joystick", x: message.x, y: message.y });
+        }
+      });
+      return;
+    }
+
     function handleMove(x: number, y: number) {
-      script.dispatchEvent(
-        new CustomEvent("joystick-onmove", {
-          // @ts-expect-error: FirefoxではcloneIntoでクローンしないとアクセスが拒否される
-          detail: typeof cloneInto !== "undefined" ? cloneInto({ x, y }, window) : { x, y },
-        }),
-      );
+      send({ type: "joystick", x, y });
+      browser.runtime.sendMessage({ type: "joystick", x, y } satisfies HookMessage).catch(() => {});
     }
 
     const ui = await createShadowRootUi(ctx, {
       name: "joystick-ui",
       position: "inline",
-      // position: "overlay",
-      // alignment: "bottom-right",
       anchor: "body",
       onMount: (container) => {
         const app = document.createElement("div");
